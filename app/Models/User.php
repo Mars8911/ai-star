@@ -18,9 +18,19 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
         'email',
         'password',
+        'first_name',
+        'last_name',
+        'nationality',
+        'national_id',
+        'phone',
+        'gender',
+        'birth_date',
+        'occupation',
+        'language',
+        'type',
+        'is_verified',
     ];
 
     /**
@@ -41,5 +51,32 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'birth_date' => 'date',
+        'is_verified' => 'boolean',
     ];
+
+    public function businessProfile()
+    {
+        return $this->hasOne(BusinessProfile::class);
+    }
+
+    public function aiStars()
+    {
+        return $this->hasMany(AiStar::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'buyer_id');
+    }
+
+    public function sales()
+    {
+        return $this->hasMany(Order::class, 'seller_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }
